@@ -3,6 +3,7 @@ package com.bgnc.questapp.controller;
 import com.bgnc.questapp.model.Post;
 import com.bgnc.questapp.request.PostCreateRequest;
 import com.bgnc.questapp.request.PostUpdateRequest;
+import com.bgnc.questapp.response.PostResponse;
 import com.bgnc.questapp.service.PostService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,7 @@ public class PostController {
     }
 
     @GetMapping
-    public List<Post> getAllPost(@RequestParam Optional<Long>userId){
+    public List<PostResponse> getAllPost(@RequestParam Optional<Long>userId){
 
         return postService.getAllPost(userId);
     }

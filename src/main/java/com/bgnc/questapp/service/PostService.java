@@ -5,28 +5,45 @@ import com.bgnc.questapp.model.User;
 import com.bgnc.questapp.repository.PostRepository;
 import com.bgnc.questapp.request.PostCreateRequest;
 import com.bgnc.questapp.request.PostUpdateRequest;
+import com.bgnc.questapp.response.PostResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
 
     private PostRepository postRepository;
+    private LikeService likeService;
     private UserService userService;
 
-    PostService(PostRepository postRepository,UserService userService){
+    PostService(PostRepository postRepository,UserService userService ){
         this.userService=userService;
+
         this.postRepository=postRepository;
     }
+    public void setLikeService(LikeService likeService){
+        this.likeService=likeService;
+    }
 
-    public List<Post> getAllPost(Optional<Long> userId){
+    public List<PostResponse> getAllPost(Optional<Long> userId){
+
+        List<Post> list;
 
         if(userId.isPresent()){
-            return postRepository.findByUserId(userId.get());
+            list= postRepository.findByUserId(userId.get());
         }
-        return postRepository.findAll();
+        else
+            list= postRepository.findAll();
+
+        return list.stream().map(p->{
+
+
+                return new PostResponse(p);
+        }).
+                collect(Collectors.toList());
 
     }
 
