@@ -4,6 +4,7 @@ import com.bgnc.questapp.model.Comment;
 import com.bgnc.questapp.model.Post;
 import com.bgnc.questapp.model.User;
 import com.bgnc.questapp.request.CommentCreateRequest;
+import com.bgnc.questapp.request.CommentUpdateRequest;
 import com.bgnc.questapp.service.CommentService;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,8 @@ public class CommentController {
     }
 
     @GetMapping
-    public List<Comment> getAllComments(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> postId){
+    public List<Comment> getAllComments(@RequestParam Optional<Long> userId,
+                                        @RequestParam Optional<Long> postId){
         return commentService.getAllComments(userId,postId);
     }
 
@@ -35,6 +37,19 @@ public class CommentController {
     public Comment getCommentById(@PathVariable Long commentId){
         return commentService.getCommentById(commentId);
 
+    }
+    @PutMapping("/{commentId}")
+    public Comment updateCommentById(@PathVariable Long commentId,
+                                     @RequestBody CommentUpdateRequest commentUpdateRequest){
+
+        return commentService.updateCommentById(commentId,commentUpdateRequest);
+    }
+
+
+
+    @DeleteMapping("/{commentId}")
+    public void deleteCommentById(@PathVariable Long commentId){
+        commentService.deleteById(commentId);
     }
 
 

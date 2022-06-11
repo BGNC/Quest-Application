@@ -2,9 +2,11 @@ package com.bgnc.questapp.service;
 
 import com.bgnc.questapp.model.Comment;
 
+import com.bgnc.questapp.model.Post;
 import com.bgnc.questapp.model.User;
 import com.bgnc.questapp.repository.CommentRepository;
 import com.bgnc.questapp.request.CommentCreateRequest;
+import com.bgnc.questapp.request.CommentUpdateRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,12 +47,40 @@ public class CommentService {
     }
 
     public Comment saveComment(CommentCreateRequest commentCreateRequest) {
-        Comment comment = new Comment();
+
         User user = userService.getUserById(commentCreateRequest.getUserId());
-        if(user.getId()>0){
-
+        Post post = postService.getPostById(commentCreateRequest.getPostId());
+        if(user!=null && post!=null){
+            Comment comment = new Comment();
+            comment.setId(commentCreateRequest.getId());
+            comment.setPost(post);
+            comment.setUser(user);
+            comment.setText(commentCreateRequest.getText());
+            commentRepository.save(comment);
+            return comment;
         }
+        else
+            return null;
 
 
+    }
+
+    public void deleteById(Long commentId) {
+        commentRepository.deleteById(commentId);
+    }
+
+    public Comment updateCommentById(Long commentId, CommentUpdateRequest commentUpdateRequest) {
+
+        Optional<Comment> comment = commentRepository.findById(commentId);
+        if(comment.isPresent()){
+
+            Comment toUpdate = comment.get();
+            toUpdate.setText(commentUpdateRequest.getText());
+
+            commentRepository.save(toUpdate);
+            return toUpdate;
+        }
+        else
+            return null;
     }
 }
