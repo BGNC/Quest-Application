@@ -1,8 +1,7 @@
 package com.bgnc.questapp.security;
 
 import com.bgnc.questapp.model.User;
-import io.jsonwebtoken.Jwt;
-import lombok.Data;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
