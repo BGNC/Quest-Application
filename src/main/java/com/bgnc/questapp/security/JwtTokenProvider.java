@@ -22,7 +22,7 @@ public class JwtTokenProvider {
     @Value("${questapp.app.expires.in}")
     private Long expiresIn;
 
-    public String generateJwToken(Authentication auth){
+    public String generateJwtToken(Authentication auth){
         JwtUserDetails userDetails = (JwtUserDetails) auth.getPrincipal();
         Date expiredDate = new Date(new Date().getTime()+expiresIn);
 
