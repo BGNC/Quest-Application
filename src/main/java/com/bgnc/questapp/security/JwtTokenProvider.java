@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+
 import java.util.Date;
 
 @Component
@@ -45,11 +47,15 @@ public class JwtTokenProvider {
         try {
             Jwts.parser().setSigningKey(appSecret).parseClaimsJws(token);
             return !isTokenExpired(token);
-        } catch (MalformedJwtException e)
+        }
+        catch (SignatureException e)
         {
             return false;
         }
-        catch(ExpiredJwtException e)
+        catch (MalformedJwtException e)
+        {
+            return false;
+        } catch(ExpiredJwtException e)
         {
             return false;
         }
