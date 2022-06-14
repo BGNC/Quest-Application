@@ -1,6 +1,8 @@
 package com.bgnc.questapp.controller;
 
 import com.bgnc.questapp.model.Like;
+import com.bgnc.questapp.request.LikeCreateRequest;
+import com.bgnc.questapp.response.LikeResponse;
 import com.bgnc.questapp.service.LikeService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +21,7 @@ public class LikeController {
 
 
     @GetMapping
-    public List<Like> getAllLikes(@RequestParam Optional<Long> userId, Optional<Long> postId){
+    public List<LikeResponse> getAllLikes(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> postId){
         return likeService.getAllLikes(userId,postId);
 
     }
@@ -30,17 +32,10 @@ public class LikeController {
     }
 
     @PostMapping
-    public Like saveLike(@RequestBody Like like){
-        return likeService.addLike(like);
+    public Like saveLike(@RequestBody LikeCreateRequest likeRequest){
+        return likeService.addLike(likeRequest);
 
     }
-
-    @PutMapping("/{likeId}")
-    public Like updateLike(@PathVariable Long likeId ,@RequestBody Like like){
-        return likeService.updateById(likeId,like);
-
-    }
-
 
     @DeleteMapping("/{likeId}")
     public void deleteById(@PathVariable Long likeId){
