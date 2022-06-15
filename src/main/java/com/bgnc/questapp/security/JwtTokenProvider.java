@@ -27,11 +27,10 @@ public class JwtTokenProvider {
         Date expiredDate = new Date(new Date().getTime()+expiresIn);
 
         return Jwts.builder().
-                setSubject(Long.toString(userDetails.getId()))
-                .setIssuedAt(new Date()).
-                setExpiration(expiredDate)
-                .signWith(SignatureAlgorithm.HS512,appSecret)
-                .compact();
+                setSubject(Long.toString(userDetails.getId())).
+                setIssuedAt(new Date()).setExpiration(expiredDate).
+                signWith(SignatureAlgorithm.HS512,appSecret).
+                compact();
 
     }
 

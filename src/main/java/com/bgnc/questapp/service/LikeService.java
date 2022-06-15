@@ -46,7 +46,7 @@ public class LikeService {
              list = likeRepository.findAll();
         }
 
-        return list.stream().map(like -> new LikeResponse(like)).collect(Collectors.toList());
+        return list.stream().map(LikeResponse::new).collect(Collectors.toList());
     }
 
 
